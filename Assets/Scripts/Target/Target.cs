@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Target : MonoBehaviour
+public class Target : MonoBehaviour, IDamageable
 {
     [SerializeField]
     private float health = 50.0f;

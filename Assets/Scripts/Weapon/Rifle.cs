@@ -30,8 +30,8 @@ public class Rifle : Weapon
         if (isHit == true)
         {
             Debug.Log("º“√— ∏Ì¡ﬂ: " + hit.transform.name);
-            Target target = hit.transform.GetComponent<Target>();
-
+            //Target target = hit.transform.GetComponent<Target>();
+            IDamageable target = hit.transform.GetComponent<IDamageable>();
             if (target != null)
             {
                 target.TakeDamage(damage);
