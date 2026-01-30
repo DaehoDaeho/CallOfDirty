@@ -78,4 +78,13 @@ public class FPSMovement : MonoBehaviour
         // 낙하 이동.
         controller.Move(velocity * Time.deltaTime);
     }
+
+    /// <summary>
+    /// 이동 중인지 여부를 반환.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsMoving()
+    {
+        return controller.velocity.sqrMagnitude > 0.1f;
+    }
 }
