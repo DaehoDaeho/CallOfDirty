@@ -5,10 +5,12 @@ public enum EnemyState
 {
     Idle = 0,   // 대기.
     Patrol = 1, // 순찰.
-    Chase = 2   // 추적.
+    Chase = 2,   // 추적.
+    Attack = 3, // 공격.
+    Dead    // 사망.
 }
 
-public class ZombieFSM : MonoBehaviour
+public class ZombieFSM : MonoBehaviour, IDamageable
 {
     [SerializeField]
     private EnemyState currentState;    // 현재 상태.
@@ -27,9 +29,6 @@ public class ZombieFSM : MonoBehaviour
     [SerializeField]
     private LayerMask obstacleMask;
 
-    //[SerializeField]
-    //private float patrolRadius = 10.0f; // 순찰 반경.
-
     [SerializeField]
     private Transform[] wayPoints;  // 웨이포인트의 배열.
     private int currentWaypointIndex = 0;   // 현재 목표 지점의 인덱스.
@@ -44,6 +43,25 @@ public class ZombieFSM : MonoBehaviour
     [SerializeField]
     private Animator animator;
 
+    [SerializeField]
+    private float attackRange = 1.5f;   // 공격 가능 사거리.
+
+    [SerializeField]
+    private float attackRate = 1.0f;    // 공격 속도 (1초에 1번)
+
+    [SerializeField]
+    private float attackDamage = 10.0f; // 공격 대미지.
+
+    [SerializeField]
+    private float maxHealth = 100.0f;
+
+    [SerializeField]
+    private RagdollController ragdoll;
+
+    private float currentHealth = 0.0f;
+
+    private float lastAttackTime = 0.0f;    // 마지막 공격 시간.
+
     private float idleTimer = 0.0f;
     private float idleDuration = 2.0f;  // 2초 동안 대기 후 이동.
 
@@ -56,6 +74,8 @@ public class ZombieFSM : MonoBehaviour
             targetPlayer = go.transform;
             playerMovement = go.GetComponent<FPSMovement>();
         }
+
+        currentHealth = maxHealth;
 
         currentState = EnemyState.Idle;
     }
@@ -80,6 +100,12 @@ public class ZombieFSM : MonoBehaviour
             case EnemyState.Chase:
                 {
                     UpdateChase();
+                }
+                break;
+
+            case EnemyState.Attack:
+                {
+                    UpdateAttack();
                 }
                 break;
         }
@@ -121,7 +147,38 @@ public class ZombieFSM : MonoBehaviour
     {
         if(targetPlayer != null)
         {
-            agent.SetDestination(targetPlayer.position);
+            if(agent.enabled == true)
+            {
+                agent.SetDestination(targetPlayer.position);
+                agent.isStopped = false;    // 추적 시 이동 재개.
+            }
+        }
+    }
+
+    void UpdateAttack()
+    {
+        agent.isStopped = true; // 이동 멈춤.
+
+        if(targetPlayer != null)
+        {
+            Vector3 targetPosition = new Vector3(targetPlayer.position.x, transform.position.y, targetPlayer.position.z);
+
+            // Transform.LookAt : 파라미터로 전달한 위치를 바라보게 만들어주는 함수.
+            transform.LookAt(targetPosition);
+
+            // 공격 주기 체크.
+            if (Time.time >= lastAttackTime + attackRate)
+            {
+                lastAttackTime = Time.time;
+
+                animator.SetTrigger("Attack");
+
+                IDamageable playerHealth = targetPlayer.GetComponent<IDamageable>();
+                if (playerHealth != null)
+                {
+                    playerHealth.TakeDamage(attackDamage);
+                }
+            }
         }
     }
 
@@ -197,29 +254,29 @@ public class ZombieFSM : MonoBehaviour
 
         float distanceToPlayer = Vector3.Distance(transform.position, targetPlayer.position);
 
-        // 플레이어가 감지 거리 내에 있고, 현재 상태가 추적 상태가 아니면 추적 상태로 전이.
-        //if(distanceToPlayer <= detectionRange && currentState != EnemyState.Chase)
-        //{
-        //    ChangeState(EnemyState.Chase);
-        //}
-        //// 플레이어가 감지 거리 바깥으로 멀어졌고 현재 상태가 추적 상태라면 순찰 상태로 전이.
-        //else if(distanceToPlayer > detectionRange && currentState == EnemyState.Chase)
-        //{
-        //    ChangeState(EnemyState.Patrol);
-        //}
-
-        if(currentState != EnemyState.Chase)
+        if(currentState == EnemyState.Chase)
         {
-            if(DetectPlayer(distanceToPlayer) == true)
+            if(distanceToPlayer <= attackRange)
+            {
+                ChangeState(EnemyState.Attack);
+            }
+            else if(distanceToPlayer > viewDistance)
+            {
+                ChangeState(EnemyState.Patrol);
+            }
+        }
+        else if(currentState == EnemyState.Attack)
+        {
+            if(distanceToPlayer > attackRange)
             {
                 ChangeState(EnemyState.Chase);
             }
         }
         else
         {
-            if(distanceToPlayer > viewDistance)
+            if (DetectPlayer(distanceToPlayer) == true)
             {
-                ChangeState(EnemyState.Patrol);
+                ChangeState(EnemyState.Chase);
             }
         }
     }
@@ -260,6 +317,43 @@ public class ZombieFSM : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void TakeDamage(float damageAmount)
+    {
+        if(currentState == EnemyState.Dead)
+        {
+            return;
+        }
+
+        currentHealth -= damageAmount;
+
+        if(currentState != EnemyState.Chase && currentState != EnemyState.Attack)
+        {
+            ChangeState(EnemyState.Chase);
+        }
+
+        if(currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        ChangeState(EnemyState.Dead);
+
+        agent.isStopped = true;
+        agent.enabled = false;
+
+        GetComponent<Collider>().enabled = false;
+
+        if(ragdoll != null)
+        {
+            ragdoll.EnableRagdoll();
+        }
+
+        Destroy(gameObject, 5.0f);
     }
 
     private void OnDrawGizmos()
