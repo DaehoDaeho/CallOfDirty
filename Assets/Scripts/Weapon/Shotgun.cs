@@ -47,6 +47,8 @@ public class Shotgun : Weapon
                 if (target != null)
                 {
                     target.TakeDamage(damage);
+
+                    TriggerEnemyHit();
                 }
             }
         }

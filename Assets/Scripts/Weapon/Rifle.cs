@@ -35,6 +35,8 @@ public class Rifle : Weapon
             if (target != null)
             {
                 target.TakeDamage(damage);
+
+                TriggerEnemyHit();
             }
         }
     }

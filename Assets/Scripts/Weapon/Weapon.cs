@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class Weapon : MonoBehaviour
 {
@@ -11,12 +12,18 @@ public class Weapon : MonoBehaviour
 
     protected float nextFireTime = 0.0f;
 
+    public event Action OnEnemyHit;
+
+    public AudioClip shootSound;
+
     public virtual void Shoot()
     {
         if(muzzleFlash != null)
         {
             muzzleFlash.Play();
         }
+
+        SoundManager.instance.PlaySFX(shootSound);
 
         Debug.Log("기본 무기 발사!!!!");
     }
@@ -30,5 +37,16 @@ public class Weapon : MonoBehaviour
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// 자식 클래스에서 적을 맞췄을 때 호출할 함수.
+    /// </summary>
+    protected void TriggerEnemyHit()
+    {
+        if(OnEnemyHit != null)
+        {
+            OnEnemyHit.Invoke();
+        }
     }
 }
