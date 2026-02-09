@@ -59,8 +59,9 @@ public class HitscanWeapon : MonoBehaviour
 
             if(hitEffectPrefab != null)
             {
-                GameObject go = Instantiate(hitEffectPrefab, hit.point, Quaternion.LookRotation(hit.normal));
-                Destroy(go, 2.0f);
+                //GameObject go = Instantiate(hitEffectPrefab, hit.point, Quaternion.LookRotation(hit.normal));
+                //Destroy(go, 2.0f);
+                PoolManager.Instance.SpawnFromPool("HitEffect", hit.point, Quaternion.LookRotation(hit.normal));
             }
         }
     }
