@@ -22,10 +22,10 @@ public class OptionUI : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape) == true)
-        {
-            optionPanel.SetActive(!optionPanel.activeSelf);
-        }
+        //if(Input.GetKeyDown(KeyCode.Escape) == true)
+        //{
+        //    optionPanel.SetActive(!optionPanel.activeSelf);
+        //}
 
         if(optionPanel.activeSelf == true)
         {
