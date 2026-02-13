@@ -38,6 +38,17 @@ public class Rifle : Weapon
 
                 TriggerEnemyHit();
             }
+
+            GameObject obj = PoolManager.Instance.SpawnFromPool("HitEffect", hit.point, Quaternion.LookRotation(hit.normal));
+            if(obj != null)
+            {
+                ParticleSystem ps = obj.GetComponent<ParticleSystem>();
+                if(ps != null)
+                {
+                    ps.Stop();
+                    ps.Play();
+                }
+            }
         }
     }
 }

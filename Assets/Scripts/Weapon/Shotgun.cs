@@ -50,6 +50,8 @@ public class Shotgun : Weapon
 
                     TriggerEnemyHit();
                 }
+
+                PoolManager.Instance.SpawnFromPool("HitEffect", hit.point, Quaternion.LookRotation(hit.normal));
             }
         }
     }

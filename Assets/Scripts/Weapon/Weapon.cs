@@ -16,6 +16,8 @@ public class Weapon : MonoBehaviour
 
     public AudioClip shootSound;
 
+    public GameObject hitEffectPrefab;
+
     public virtual void Shoot()
     {
         if(muzzleFlash != null)
