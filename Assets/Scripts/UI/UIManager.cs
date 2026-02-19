@@ -24,6 +24,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private Weapon currentWeapon;   // 현재 사용중인 무기.
+
+    [SerializeField]
+    private DamageVignette damageVignette;
     
     private Color originalCrosshairColor;   // 크로스헤어 UI의 원래 색.
 
@@ -37,6 +40,7 @@ public class UIManager : MonoBehaviour
         if(playerHealth != null)
         {
             playerHealth.OnHealthChanged += UpdateHealthUI;
+            playerHealth.OnHealthChanged += damageVignette.UpdateVignette;
         }
 
         if(currentWeapon != null)
@@ -50,6 +54,7 @@ public class UIManager : MonoBehaviour
         if (playerHealth != null)
         {
             playerHealth.OnHealthChanged -= UpdateHealthUI;
+            playerHealth.OnHealthChanged -= damageVignette.UpdateVignette;
         }
 
         if (currentWeapon != null)
