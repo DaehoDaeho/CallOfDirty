@@ -35,6 +35,8 @@ public class LoadingManager : MonoBehaviour
         // 로딩이 완료될 때까지 반복.
         while(op.isDone == false)
         {
+            yield return null;
+
             timer += Time.deltaTime;
 
             if(op.progress < 0.9f)
