@@ -172,13 +172,16 @@ public class ZombieFSM : MonoBehaviour, IDamageable
                 lastAttackTime = Time.time;
 
                 animator.SetTrigger("Attack");
-
-                IDamageable playerHealth = targetPlayer.GetComponent<IDamageable>();
-                if (playerHealth != null)
-                {
-                    playerHealth.TakeDamage(attackDamage);
-                }
             }
+        }
+    }
+
+    public void TakeDamage()
+    {
+        IDamageable playerHealth = targetPlayer.GetComponent<IDamageable>();
+        if (playerHealth != null)
+        {
+            playerHealth.TakeDamage(attackDamage);
         }
     }
 
