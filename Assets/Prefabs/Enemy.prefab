@@ -1574,9 +1574,9 @@ GameObject:
   - component: {fileID: 3893294197879345259}
   - component: {fileID: 6982812146204527121}
   - component: {fileID: 6003325474829986566}
-  - component: {fileID: 846030573101513384}
   - component: {fileID: 5450753416928933325}
   - component: {fileID: 4830561671263300336}
+  - component: {fileID: 950906394838917249}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -1646,40 +1646,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &846030573101513384
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4416926081852918481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e20c775f87c4b35479225932540b3cd1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentState: 0
-  viewDistance: 15
-  viewAngle: 60
-  hearingDistance: 5
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 512
-  wayPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  targetPlayer: {fileID: 0}
-  agent: {fileID: 6003325474829986566}
-  animator: {fileID: 6982812146204527121}
-  attackRange: 1.5
-  attackRate: 1
-  attackDamage: 10
-  maxHealth: 100
-  ragdoll: {fileID: 5450753416928933325}
 --- !u!114 &5450753416928933325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1714,6 +1680,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 0.6, z: 0.25}
   m_Center: {x: 0, y: 1.2, z: 0}
+--- !u!114 &950906394838917249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926081852918481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e64fbbc91dd0b3840aea4a368cbef182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewDistance: 15
+  viewAngle: 60
+  hearingDistance: 5
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 512
+  wayPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  currentWaypointIndex: 0
+  targetPlayer: {fileID: 0}
+  playerMovement: {fileID: 0}
+  agent: {fileID: 6003325474829986566}
+  animator: {fileID: 6982812146204527121}
+  attackRange: 1.5
+  attackRate: 1
+  attackDamage: 10
+  maxHealth: 100
+  ragdoll: {fileID: 5450753416928933325}
+  currentHealth: 0
+  lastAttackTime: 0
+  idleTimer: 0
+  idleDuration: 2
 --- !u!1 &4523139366846529165
 GameObject:
   m_ObjectHideFlags: 0
