@@ -27,6 +27,9 @@ public class FPSMovement : MonoBehaviour
     [SerializeField]
     private int maxJumpCount = 1;
 
+    [SerializeField]
+    private PlayerHealth playerHealth;
+
     private Vector3 velocity;   // ³«ÇÏ¼Óµµ.
     private bool isGrounded;
     private float addictiveSpeed = 0.0f;
@@ -36,6 +39,11 @@ public class FPSMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (playerHealth.IsDead() == true)
+        {
+            return;
+        }    
+
         isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckDistance, groundMask);
 
         if (isGrounded == true)

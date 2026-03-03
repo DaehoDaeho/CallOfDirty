@@ -6,6 +6,9 @@ public class RagdollController : MonoBehaviour
     [SerializeField]
     private Animator animator;
 
+    [SerializeField]
+    private bool disableAfterInit = false;
+
     private List<Rigidbody> ragdollRigidbodies = new List<Rigidbody>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,6 +27,11 @@ public class RagdollController : MonoBehaviour
         }
 
         DisableRagdoll();
+
+        if(disableAfterInit == true)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void DisableRagdoll()
