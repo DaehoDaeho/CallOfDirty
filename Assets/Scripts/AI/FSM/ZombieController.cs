@@ -40,6 +40,12 @@ public class ZombieController : MonoBehaviour, IDamageable
 
     private ZombieState currentState;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private AudioClip clipScream;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -146,5 +152,11 @@ public class ZombieController : MonoBehaviour, IDamageable
         }
 
         return false;
+    }
+
+    public void PlayScream()
+    {
+        audioSource.clip = clipScream;
+        audioSource.Play();
     }
 }

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -29,6 +30,14 @@ public class FPSMovement : MonoBehaviour
 
     [SerializeField]
     private PlayerHealth playerHealth;
+
+    [SerializeField]
+    private FootStep footStep;
+
+    [SerializeField]
+    private float footStepInterval = 0.2f;
+
+    private float footStepTimer = 0.0f;
 
     private Vector3 velocity;   // ³«ÇÏ¼Óµµ.
     private bool isGrounded;
@@ -85,6 +94,16 @@ public class FPSMovement : MonoBehaviour
 
         // ³«ÇÏ ÀÌµ¿.
         controller.Move(velocity * Time.deltaTime);
+
+        if(x != 0.0f || z != 0.0f)
+        {
+            footStepTimer += Time.deltaTime;
+            if(footStepTimer >= footStepInterval)
+            {
+                PlayFootstep();
+                footStepTimer = 0.0f;
+            }
+        }
     }
 
     /// <summary>
@@ -94,5 +113,13 @@ public class FPSMovement : MonoBehaviour
     public bool IsMoving()
     {
         return controller.velocity.sqrMagnitude > 0.1f;
+    }
+
+    void PlayFootstep()
+    {
+        if(footStep != null)
+        {
+            footStep.PlayFootStep();
+        }
     }
 }
