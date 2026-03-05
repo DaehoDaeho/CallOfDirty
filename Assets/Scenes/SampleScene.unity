@@ -8,8 +8,8 @@ OcclusionCullingSettings:
     smallestOccluder: 5
     smallestHole: 0.25
     backfaceThreshold: 100
-  m_SceneGUID: 00000000000000000000000000000000
-  m_OcclusionCullingData: {fileID: 0}
+  m_SceneGUID: 99c9720ab356a0642a771bea13969a05
+  m_OcclusionCullingData: {fileID: 36300000, guid: c33c7d36894d0604ca1bbb9b3cadcb76, type: 2}
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
@@ -885,7 +885,7 @@ GameObject:
   m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &162224448
 Transform:
@@ -1600,7 +1600,7 @@ GameObject:
   m_TagString: Wood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &280308597
 Transform:
@@ -2780,6 +2780,7 @@ GameObject:
   - component: {fileID: 459063299}
   - component: {fileID: 459063300}
   - component: {fileID: 459063301}
+  - component: {fileID: 459063302}
   m_Layer: 0
   m_Name: WeaponHolder
   m_TagString: Untagged
@@ -2836,6 +2837,23 @@ MonoBehaviour:
   grenadePrefab: {fileID: 8355528395001887776, guid: 6e18ff0720dff3b4b8f38e76163b2abe, type: 3}
   firePoint: {fileID: 1380072824}
   throwForce: 15
+--- !u!114 &459063302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459063298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfca1fc9c7b6124b9b64eb8cf0ba90d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noiseBallPrefab: {fileID: 8355528395001887776, guid: 0023aba083de7d94888e02cf64c0e2f3, type: 3}
+  throwPoint: {fileID: 1380072824}
+  throwForce: 15
+  throwKey: 103
+  cam: {fileID: 330585546}
 --- !u!1 &486961256
 GameObject:
   m_ObjectHideFlags: 0
@@ -4994,6 +5012,9 @@ MonoBehaviour:
   muzzleFlash: {fileID: 0}
   shootSound: {fileID: 0}
   hitEffectPrefab: {fileID: 0}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &857977083
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5760,7 +5781,7 @@ GameObject:
   m_TagString: Dirt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1049135895
 Transform:
@@ -14638,6 +14659,9 @@ MonoBehaviour:
   muzzleFlash: {fileID: 1998920010}
   shootSound: {fileID: 0}
   hitEffectPrefab: {fileID: 0}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &69530127064396526
 GameObject:
   m_ObjectHideFlags: 0

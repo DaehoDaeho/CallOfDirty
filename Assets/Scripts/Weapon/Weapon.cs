@@ -18,6 +18,9 @@ public class Weapon : MonoBehaviour
 
     public GameObject hitEffectPrefab;
 
+    public LayerMask enemyLayer;
+    public float noiseRange = 15.0f;
+
     public virtual void Shoot()
     {
         if(muzzleFlash != null)
@@ -26,6 +29,17 @@ public class Weapon : MonoBehaviour
         }
 
         SoundManager.instance.PlaySFX(shootSound);
+
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, noiseRange, enemyLayer);
+
+        for (int i = 0; i < hitColliders.Length; ++i)
+        {
+            INoiseHearable noiseHearable = hitColliders[i].GetComponent<INoiseHearable>();
+            if (noiseHearable != null)
+            {
+                noiseHearable.OnHearNoise(transform.position, 1.0f);
+            }
+        }
 
         Debug.Log("기본 무기 발사!!!!");
     }

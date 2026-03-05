@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ZombieController : MonoBehaviour, IDamageable
+public class ZombieController : MonoBehaviour, IDamageable, INoiseHearable
 {   
     public float viewDistance = 15.0f;
 
@@ -158,5 +158,20 @@ public class ZombieController : MonoBehaviour, IDamageable
     {
         audioSource.clip = clipScream;
         audioSource.Play();
+    }
+
+    public void OnHearNoise(Vector3 noisePosition, float intensity)
+    {
+        if(currentHealth <= 0)
+        {
+            return;
+        }
+
+        if(currentState is ChaseState || currentState is AttackState)
+        {
+            return;
+        }
+
+        ChangeState(new InvestigateState(this, noisePosition));
     }
 }
