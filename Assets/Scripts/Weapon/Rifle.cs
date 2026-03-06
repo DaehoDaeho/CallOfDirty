@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Rifle : Weapon
 {
-    
+    [SerializeField]
+    private LayerMask targetLayer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,12 +28,13 @@ public class Rifle : Weapon
 
         RaycastHit hit;
 
-        bool isHit = Physics.Raycast(fpsCamera.transform.position, fpsCamera.transform.forward, out hit, range);
+        bool isHit = Physics.Raycast(fpsCamera.transform.position, fpsCamera.transform.forward, out hit, range, targetLayer);
 
         if (isHit == true)
         {
             Debug.Log("º“√— ∏Ì¡ﬂ: " + hit.transform.name);
             //Target target = hit.transform.GetComponent<Target>();
+
             IDamageable target = hit.transform.GetComponent<IDamageable>();
             if (target != null)
             {

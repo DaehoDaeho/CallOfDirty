@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ZombieController : MonoBehaviour, IDamageable, INoiseHearable
+public class ZombieController : MonoBehaviour, INoiseHearable
 {   
     public float viewDistance = 15.0f;
 
@@ -173,5 +173,21 @@ public class ZombieController : MonoBehaviour, IDamageable, INoiseHearable
         }
 
         ChangeState(new InvestigateState(this, noisePosition));
+    }
+
+    public void TakeLimpDamage(float damage, bool isLeghit)
+    {
+        if(currentState is DeadState)
+        {
+            return;
+        }
+
+        TakeDamage(damage);
+
+        if(currentHealth > 0 && isLeghit == true && agent.enabled == true)
+        {
+            agent.speed *= 0.5f;    // 이동 속도 감소.
+            //animator.SetFloat("MoveSpeed", 0.5f);   // 애니메이션 속도 감소.
+        }
     }
 }
