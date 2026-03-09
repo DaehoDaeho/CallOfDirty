@@ -13,6 +13,8 @@ public class DeadState : ZombieState
         zombie.agent.enabled = false;
         zombie.GetComponent<Collider>().enabled = false;
 
+        MissionEventBus.PublishEnemyKilled();
+
         if(zombie.ragdoll != null)
         {
             zombie.ragdoll.EnableRagdoll();
